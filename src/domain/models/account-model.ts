@@ -1,5 +1,5 @@
 type AccountModel = {
-  token: string
-}
+  token: string;
+};
 
-export default AccountModel
+export default AccountModel;
