@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import { mockAuthentication } from '@/domain/test/mock-authentication';
 import { InvalidCredentialsError } from '@/domain/erros/invalid-credentials-error';
 import { HttpStatusCode } from '@/data/protocols/http/http-response';
+import { UnexpectedError } from './../../../domain/erros/unexpected-error';
 
 type SutTypes = {
   sut: RemoteAuthentication;
@@ -44,4 +45,34 @@ it('Should throw InvalidCredentialsError if HttpPostClient returns 401 ', () => 
   const promise = sut.auth(mockAuthentication());
 
   expect(promise).rejects.toThrow(new InvalidCredentialsError());
+});
+
+it('Should throw UnexpectedError if HttpPostClient returns 400 ', () => {
+  const { sut, httpPostClienSpy } = makeSut();
+  httpPostClienSpy.response = {
+    statusCode: HttpStatusCode.badRequest,
+  };
+  const promise = sut.auth(mockAuthentication());
+
+  expect(promise).rejects.toThrow(new UnexpectedError());
+});
+
+it('Should throw UnexpectedError if HttpPostClient returns 404 ', () => {
+  const { sut, httpPostClienSpy } = makeSut();
+  httpPostClienSpy.response = {
+    statusCode: HttpStatusCode.notFound,
+  };
+  const promise = sut.auth(mockAuthentication());
+
+  expect(promise).rejects.toThrow(new UnexpectedError());
+});
+
+it('Should throw UnexpectedError if HttpPostClient returns 500 ', () => {
+  const { sut, httpPostClienSpy } = makeSut();
+  httpPostClienSpy.response = {
+    statusCode: HttpStatusCode.serverError,
+  };
+  const promise = sut.auth(mockAuthentication());
+
+  expect(promise).rejects.toThrow(new UnexpectedError());
 });
