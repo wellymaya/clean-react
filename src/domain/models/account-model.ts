@@ -1,5 +1,3 @@
-type AccountModel = {
-  token: string;
+export type AccountModel = {
+  acessToken: string;
 };
-
-export default AccountModel;
