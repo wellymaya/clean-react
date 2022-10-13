@@ -44,7 +44,7 @@ it('Should call HttpPostClient with the correct body', () => {
 it('Should throw InvalidCredentialsError if HttpPostClient returns 401 ', () => {
   const { sut, httpPostClienSpy } = makeSut();
   httpPostClienSpy.response = {
-    statusCode: HttpStatusCode.unathorized,
+    statusCode: HttpStatusCode.unauthorized,
   };
   const promise = sut.auth(mockAuthentication());
 
