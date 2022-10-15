@@ -12,23 +12,15 @@ const makeSut = (): AxiosHttpClient => {
 
 const mockPostRequest = (): HttpPostParams<any> => ({
   url: faker.internet.url(),
-  body: faker.random.alpha(),
+  body: faker.random.words(),
 });
 
 describe('AxiosHttpClient', () => {
-  it('Should call axios with the correct URL', async () => {
-    const url = faker.internet.url();
-    const sut = makeSut();
-    await sut.post({ url: url });
-
-    expect(mockedAxios.post).toHaveBeenCalledWith(url);
-  });
-
-  it('Should call axios with the correct body', async () => {
+  it('Should call axios with the correct values', async () => {
     const request = mockPostRequest();
     const sut = makeSut();
     await sut.post(request);
 
-    expect(mockedAxios.post).toHaveBeenCalledWith(request.url);
+    expect(mockedAxios.post).toHaveBeenCalledWith(request.url, request.body);
   });
 });
