@@ -1,6 +1,5 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
 module.exports = {
   mode: 'development',
   entry: './src/main/index.tsx',
@@ -42,13 +41,17 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: './public',
-    writeToDisk: true,
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
     historyApiFallback: true,
+    devMiddleware: {
+      writeToDisk: true,
+    },
   },
   externals: {
     react: 'React',
-    'react-dom': 'ReactDom',
+    'react-dom': 'ReactDOM',
   },
   plugins: [new CleanWebpackPlugin()],
 };
